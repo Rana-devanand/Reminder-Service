@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { PORT } = require("./config/serverConfig");
 
+const { sendBasicEmail } = require("./services/email-service");
+
 const setupAndStartServer = () => {
   const app = express();
   app.use(bodyParser.json());
@@ -10,6 +12,13 @@ const setupAndStartServer = () => {
   app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
   });
+
+  sendBasicEmail(
+    "support@example.com",
+    "devanandrana168@gmail.com",
+    "Need your help !",
+    "I am facing a problem with the booking system. Please help me resolve it."
+  );
 };
 
 setupAndStartServer();
