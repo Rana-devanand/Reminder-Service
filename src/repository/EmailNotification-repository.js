@@ -23,6 +23,18 @@ class TicketRepository extends TicketNotification {
     }
   }
 
+  async updateTicketStatus(ticketId, data) {
+    try {
+      const tickets = await TicketNotification.findByPk(ticketId);
+      tickets.status = data.status;
+      await tickets.save();
+      return tickets;
+    } catch (error) {
+      console.error("Error creating a tickets", error);
+      throw error;
+    }
+  }
+
   async get(filter) {
     try {
       const tickets = await TicketNotification.findAll({

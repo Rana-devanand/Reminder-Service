@@ -29,8 +29,19 @@ class ServiceLayer {
 
   async fetchPendingEmails(timestamp) {
     try {
-      console.log("Service fetch");
       const response = await this.TicketRepository.get({ status: "PENDING" });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateStatus(ticketId, data) {
+    try {
+      const response = await this.TicketRepository.updateTicketStatus(
+        ticketId,
+        data
+      );
       return response;
     } catch (error) {
       throw error;
