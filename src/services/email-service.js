@@ -5,7 +5,9 @@ class ServiceLayer {
   constructor() {
     this.TicketRepository = new TicketRepository();
   }
-  async(mailFrom, mailTo, mailSubject, mailBody) {
+
+  // send a notification email to the client end.
+  async sendBasicEmail(mailFrom, mailTo, mailSubject, mailBody) {
     sender.sendMail({
       from: mailFrom,
       to: mailTo,
@@ -13,17 +15,36 @@ class ServiceLayer {
       text: mailBody,
     });
   }
+  // ----------------------------------------------------------------
+
+  async createTicket(data) {
+    try {
+      const createTicket = await this.TicketRepository.createTicket(data);
+      return createTicket;
+    } catch (error) {
+      console.error("Something went wrong in Service layer", error);
+      console.log(error);
+    }
+  }
 
   async fetchPendingEmails(timestamp) {
     try {
       console.log("Service fetch");
-      const response = await this.TicketRepository.getallTickets();
+      const response = await this.TicketRepository.get({ status: "PENDING" });
       return response;
     } catch (error) {
       throw error;
     }
   }
 }
+
+// const data = async () => {
+//   const obj = new ServiceLayer();
+//   const get = await obj.fetchPendingEmails();
+//   console.log(get);
+// };
+
+// data();
 
 module.exports = ServiceLayer;
 

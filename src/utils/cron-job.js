@@ -5,11 +5,18 @@ const EmailService = new emailService();
 
 const setupJobs = () => {
   cron.schedule("*/1 * * * *", async () => {
-    // here we will check the pending emails
-    // and send the reminder email if the email is pending
-
+    //     here we will check the pending emails
+    //     and send the reminder email if the email is pending
     try {
       const response = await EmailService.fetchPendingEmails();
+      //       response.forEach((email) => {
+      //         EmailService.sendBasicEmail(
+      //           "devanand@support.google.com",
+      //           email.recipientEmail,
+      //           email.subject,
+      //           email.content
+      //         );
+      //       });
       console.log(response);
     } catch (error) {
       console.log(error);
