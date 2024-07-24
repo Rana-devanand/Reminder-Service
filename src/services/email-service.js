@@ -1,16 +1,31 @@
 const sender = require("../config/email-config");
+const TicketRepository = require("../repository/EmailNotification-repository");
 
-const sendBasicEmail = async (mailFrom, mailTo, mailSubject, mailBody) => {
-  sender.sendMail({
-    from: mailFrom,
-    to: mailTo,
-    subject: mailSubject,
-    text: mailBody,
-  });
-};
-module.exports = {
-  sendBasicEmail,
-};
+class ServiceLayer {
+  constructor() {
+    this.TicketRepository = new TicketRepository();
+  }
+  async(mailFrom, mailTo, mailSubject, mailBody) {
+    sender.sendMail({
+      from: mailFrom,
+      to: mailTo,
+      subject: mailSubject,
+      text: mailBody,
+    });
+  }
+
+  async fetchPendingEmails(timestamp) {
+    try {
+      console.log("Service fetch");
+      const response = await this.TicketRepository.getallTickets();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
+
+module.exports = ServiceLayer;
 
 /***
  *      example ->
