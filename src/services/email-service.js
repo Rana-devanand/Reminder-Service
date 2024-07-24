@@ -38,14 +38,6 @@ class ServiceLayer {
   }
 }
 
-// const data = async () => {
-//   const obj = new ServiceLayer();
-//   const get = await obj.fetchPendingEmails();
-//   console.log(get);
-// };
-
-// data();
-
 module.exports = ServiceLayer;
 
 /***

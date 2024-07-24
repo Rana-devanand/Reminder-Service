@@ -1,11 +1,11 @@
-const { notificationTicket } = require("../models/index");
-const Op = require("sequelize");
+const { TicketNotification } = require("../models/index");
+const { Op } = require("sequelize");
 
-class TicketRepository extends notificationTicket {
+class TicketRepository extends TicketNotification {
   async getallTickets() {
     try {
       console.log("TicketRepository fetch");
-      const tickets = await notificationTicket.findAll();
+      const tickets = await TicketNotification.findAll();
       return tickets;
     } catch (error) {
       console.error("Error retrieving tickets", error);
@@ -15,7 +15,7 @@ class TicketRepository extends notificationTicket {
 
   async createTicket(data) {
     try {
-      const ticket = await notificationTicket.create(data);
+      const ticket = await TicketNotification.create(data);
       return ticket;
     } catch (error) {
       console.error("Error creating a tickets", error);
@@ -25,17 +25,15 @@ class TicketRepository extends notificationTicket {
 
   async get(filter) {
     try {
-      const date = "2024-07-24T13:10:56.198Z";
-      console.log(date);
-      const ticket = await notificationTicket.findAll({
+      const tickets = await TicketNotification.findAll({
         where: {
           status: filter.status,
           notificationTime: {
-            [Op.lte]: date,
+            [Op.lte]: new Date().toUTCString(),
           },
         },
       });
-      return ticket;
+      return tickets;
     } catch (error) {
       console.error("Error creating a tickets", error);
       throw error;
