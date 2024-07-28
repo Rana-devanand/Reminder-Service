@@ -15,15 +15,16 @@ const setupJobs = () => {
           {
             from: "sender@example.com",
             to: email.recipientEmail,
-            subject: "Reminder: Your ticket is booked",
-            // body: `Hi ${email.name},\n\nYour ticket is booked for ${email.departureTime} on ${email.departureCity} to ${email.arrivalCity}.\n\nPlease check your booking details on our website.\n\nThank you for choosing us.`,
-            body: "hi, {NAME}.\n\n Your ticket is booker for [place] to [place].",
+            subject: email.subject,
+            text: email.content,
           },
           async (err, data) => {
             if (err) {
               console.log("Error occurred while sending email: ", err);
             } else {
-              await EmailService.updateStatus(email.id, { status: "SUCCESS" });
+              await EmailService.updateStatus(email.id, {
+                status: "SUCCESS",
+              });
             }
           }
         );
